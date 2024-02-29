@@ -11,18 +11,17 @@
 template<typename T>
 constexpr auto stripped_type_name() {
 	auto loc = std::source_location::current();
-	std::string_view function_name = loc.function_name();
+	std::string_view full_name = loc.function_name();
 
-//	function_name.find_last_of('>')+1
-	function_name.length()
-
-	//auto value = function_name.substr(function_name.find_first_of("stripped_type_name") + 1, function_name.find_last_of('>'));
+	std::string_view fun_name = "stripped_type_name";
+	auto start = full_name.rfind(fun_name) + fun_name.length() + 1;
+	auto value = full_name.substr(start, full_name.find_last_of('>') - start);
 
 	return value;
 }
 
 int main(){
-	constexpr auto a = stripped_type_name<std::vector<std::string_view>>();
+	constexpr auto a = stripped_type_name<void>();
 	constexpr auto b = stripped_type_name<int>();
 	constexpr auto c = stripped_type_name<float>();
 
