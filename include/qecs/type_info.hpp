@@ -38,7 +38,10 @@ struct type_index {
 	static constexpr auto value = qecs::hash(stripped_type_name<T>());
 };
 
-struct type_info final {};
+struct type_info final {
+	id_type index;
+	std::string_view name;
+};
 
 }
 
