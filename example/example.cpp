@@ -9,25 +9,28 @@
 #include <vector>
 
 template<typename T>
-constexpr auto stripped_type_name() {
+consteval auto stripped_type_name() {
 	auto loc = std::source_location::current();
 	std::string_view full_name = loc.function_name();
 
-	std::string_view fun_name = "stripped_type_name";
-	auto start = full_name.rfind(fun_name) + fun_name.length() + 1;
-	auto value = full_name.substr(start, full_name.find_last_of('>') - start);
+	#ifdef _MSC_VER
+	std::string_view end_tag = "(void)";
+	std::string_view start_tag = "stripped_type_name<";
+	auto start = full_name.find_first_not_of(' ', full_name.rfind(start_tag) + start_tag.length());
+	auto type_name = full_name.substr(start, full_name.rfind(end_tag) - start);
+	#else
+	std::string_view end_tag = ";]";
+	std::string_view start_tag = "T = ";
+	auto start = full_name.find_first_not_of(' ', full_name.rfind(start_tag) + start_tag.length());
+	auto type_name = full_name.substr(start, full_name.find_first_of(end_tag, start) - start);
+	#endif
 
-	return value;
+	return type_name;
 }
 
-int main(){
-	constexpr auto a = stripped_type_name<void>();
-	constexpr auto b = stripped_type_name<int>();
-	constexpr auto c = stripped_type_name<float>();
-
-	std::cout << a << std::endl;
-	std::cout << b << std::endl;
-	std::cout << c << std::endl;
+int main() {
+	constexpr auto x = stripped_type_name<std::vector<int>>();
+	std::cout << x << std::endl;
 
 	return 0;
 }
