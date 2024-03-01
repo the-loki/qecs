@@ -33,11 +33,13 @@ using hash_value_type = id_type;
 }
 
 template<typename Char>
-[[maybe_unused]] constexpr internal::hash_value_type hash(std::basic_string_view<Char> str) {
-	internal::hash_value_type hash_value = 0u;
+[[nodiscard]] constexpr internal::hash_value_type hash(std::basic_string_view<Char> str) {
+	using namespace internal;
+
+	hash_value_type hash_value = 0u;
 
 	for (auto length = 0; length < str.length(); ++length) {
-		hash_value = (hash_value ^ static_cast<internal::traits_type::type>(str[length]))*internal::traits_type::prime;
+		hash_value = (hash_value ^ static_cast<traits_type::type>(str[length]))*traits_type::prime;
 	}
 
 	return hash_value;
