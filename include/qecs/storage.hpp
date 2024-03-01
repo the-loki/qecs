@@ -5,6 +5,10 @@
 
 #pragma once
 
-struct basic_storage {
+namespace qecs {
 
+struct basic_storage {
+	
 };
+
+}
