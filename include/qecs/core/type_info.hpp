@@ -5,8 +5,8 @@
 
 #pragma once
 
-#include <qecs/config.hpp>
-#include <qecs/string_hash.hpp>
+#include <qecs/core/config.hpp>
+#include <qecs/core/string_hash.hpp>
 #include <atomic>
 #include <string_view>
 #include <source_location>

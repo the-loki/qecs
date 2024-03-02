@@ -29,14 +29,14 @@ struct fnv1a_traits<std::uint64_t> {
 };
 
 using traits_type = fnv1a_traits<id_type>;
-using hash_value_type = id_type;
+using hs_value_type = id_type;
 }
 
 template<typename Char>
-[[nodiscard]] constexpr internal::hash_value_type hash(std::basic_string_view<Char> str) {
+[[nodiscard]] constexpr internal::hs_value_type hash(std::basic_string_view<Char> str) {
 	using namespace internal;
 
-	hash_value_type hash_value = 0u;
+	hs_value_type hash_value = 0u;
 
 	for (auto length = 0; length < str.length(); ++length) {
 		hash_value = (hash_value ^ static_cast<traits_type::type>(str[length]))*traits_type::prime;
